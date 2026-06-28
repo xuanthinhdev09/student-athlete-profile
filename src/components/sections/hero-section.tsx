@@ -2,6 +2,15 @@ import { motion } from 'framer-motion'
 import { Play } from 'lucide-react'
 import { athleteProfile } from '@/data'
 
+// Photo mosaic images from Unsplash (soccer/athlete themed)
+const MOSAIC_IMAGES = [
+  'https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=500&h=700&fit=crop',
+  'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&h=900&fit=crop',
+  'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=500&h=650&fit=crop',
+  'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=500&h=800&fit=crop',
+  'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=500&h=700&fit=crop',
+]
+
 export function HeroSection() {
   const scrollToHighlight = () => {
     const element = document.getElementById('highlight')
@@ -9,8 +18,32 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-b from-primary-50 to-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Photo mosaic background */}
+      <div className="absolute inset-0 flex">
+        {MOSAIC_IMAGES.map((img, index) => (
+          <div
+            key={index}
+            className="flex-1 h-full relative overflow-hidden"
+            style={{
+              animation: `fadeIn 1s ease-out ${index * 0.1}s both`,
+            }}
+          >
+            <img
+              src={img}
+              alt={`Athletic photo ${index + 1}`}
+              className="w-full h-full object-cover"
+              style={{ minHeight: '400px' }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-neutral-900/70"></div>
+
+      {/* Content container with relative positioning */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -32,7 +65,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-5xl sm:text-6xl md:text-7xl font-display font-bold text-neutral-900 mb-4"
+            className="text-5xl sm:text-6xl md:text-7xl font-display font-bold text-white mb-4 drop-shadow-lg"
           >
             {athleteProfile.name}
           </motion.h1>
@@ -42,10 +75,10 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xl md:text-2xl text-neutral-700 mb-3"
+            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xl md:text-2xl text-white/90 mb-3"
           >
             <span>Class of {athleteProfile.classOf}</span>
-            <span className="hidden sm:inline text-neutral-400">•</span>
+            <span className="hidden sm:inline text-white/60">•</span>
             <span className="hidden sm:inline">{athleteProfile.position}</span>
           </motion.div>
 
@@ -54,7 +87,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.45 }}
-            className="sm:hidden text-lg text-neutral-600 mb-3"
+            className="sm:hidden text-lg text-white/80 mb-3"
           >
             {athleteProfile.position}
           </motion.p>
@@ -80,7 +113,7 @@ export function HeroSection() {
           >
             <button
               onClick={scrollToHighlight}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-accent-500 text-neutral-900 font-semibold rounded-lg hover:bg-accent-400 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-accent-500 text-neutral-900 font-semibold rounded-lg hover:bg-accent-400 transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-neutral-900 shadow-xl"
             >
               <Play className="w-5 h-5" fill="currentColor" />
               Watch Highlight
@@ -88,7 +121,7 @@ export function HeroSection() {
 
             <a
               href="#contact"
-              className="inline-flex items-center justify-center px-8 py-4 border-2 border-primary-600 text-primary-600 font-semibold rounded-lg hover:bg-primary-50 transition-all focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-neutral-900 backdrop-blur-sm"
             >
               Contact Coach
             </a>
@@ -101,11 +134,11 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
       >
         <div className="animate-bounce">
           <svg
-            className="w-6 h-6 text-neutral-400"
+            className="w-6 h-6 text-white/70"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
